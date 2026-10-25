@@ -3,12 +3,6 @@
 A deliberately vulnerable AI access-control API, a hardened rewrite, benign
 local proof-of-concept attacks, and a full before/after comparison — all run
 **locally inside Docker, bound to `127.0.0.1` only**.
-
-> ⚠️ **Lab rule.** Everything here is a self-contained simulation. The AI models
-> are mocked in pure Python/NumPy. All "attacks" are benign PoCs against the
-> local containers (they write harmless marker files / print lines). Nothing
-> scans real networks, touches real accounts, or connects to real devices.
-
 ---
 
 ## 1. Requirements
