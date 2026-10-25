@@ -1,0 +1,9 @@
+--------------------------------------------------------------------
+(1) Clean load with integrity verification:
+    loaded OK -> MockFaceRecognitionModel (no pickle, hash verified)
+--------------------------------------------------------------------
+(2) Attacker tampers with a model file (simulating a poisoned model
+    or a traversal overwrite), then the app tries to load it:
+    [+] REFUSED: integrity check FAILED for face_recognition_model.json: expected 2e66c7a7cb48..., got bc8ab4086707...
+    => tampering detected before any use; RCE chain broken.
+--------------------------------------------------------------------

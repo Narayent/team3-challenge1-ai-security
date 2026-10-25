@@ -1,0 +1,3 @@
+[note] robustness bugs (shape/corrupt/knife/ordering) are retested live
+       via PoC #3 below: a valid image now returns a clean 200 decision
+       (knife detected -> deny), proving correct preprocessing + danger logic.

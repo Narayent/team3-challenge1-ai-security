@@ -1,0 +1,4 @@
+[*] Wrote poisoned model file: /home/astra/Desktop/4/KEI/CYBERSEC/Challenge1/sandbox/evil_model.pkl
+[*] Victim calls pickle.load() on the untrusted model file...
+[+] SUCCESS: code ran during pickle.load(). Marker: /home/astra/Desktop/4/KEI/CYBERSEC/Challenge1/sandbox/PWNED_PICKLE.txt
+    contents: 'ARBITRARY CODE EXECUTED VIA pickle.load()\n'

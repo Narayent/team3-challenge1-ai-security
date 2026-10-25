@@ -1,0 +1,6 @@
+[*] using image /home/astra/Desktop/4/KEI/CYBERSEC/Challenge1/sandbox/valid.jpg (9116 bytes)
+[*] HTTP 200
+[*] leak markers present in response: []
+---- response (first 1200 chars) ----
+{"access":false,"dangerous_objects":[{"confidence":0.88,"label":"knife"}],"decision":"deny","reason":"dangerous_object_detected","request_id":"0693595b887f"}
+

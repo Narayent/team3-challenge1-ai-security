@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.zip
+.env
+
+# scratch dir for benign attack markers
+sandbox/
+
+# runtime-generated model files (recreated by `make models` / `make up`)
+original/models/*.pkl
+secured/models/*.json
+secured/models/manifest.json
+
+# runtime-saved uploads / logs / attack markers
+original/PWNED_TRAVERSAL.txt
+original/logs/*.jpg
+original/logs/*.jpeg
+secured/logs/*.jpg
+secured/logs/*.jpeg
+secured/logs/audit.log

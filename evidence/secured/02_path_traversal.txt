@@ -1,0 +1,13 @@
+[*] POST http://127.0.0.1:8000/api/access
+[*] malicious filename = '../PWNED_TRAVERSAL.txt'
+[*] HTTP 415  (request may 500 on the model step; file.save()
+    runs BEFORE that crash, so the out-of-bounds write already happened)
+[*] body[:200]: {"error":"unsupported or non-image file"} 
+[*] Proof is verified on the container filesystem by the orchestrator.
+--- filesystem proof (file outside logs/?) ---
+[-] No file escaped ./logs/ -> traversal blocked.
+    (logs/ contents:)
+total 28
+-rw-r--r--. 1 astra astra 9116 Oct 25 16:00 7acec3f05c844ffdaeacc5c1c3130b7f.jpeg
+-rw-r--r--. 1 astra astra 9116 Oct 25 16:03 a88755eeebe847a4ba6915c9630eed32.jpeg
+-rw-r--r--. 1 astra astra 1103 Oct 25 16:15 audit.log

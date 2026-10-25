@@ -1,0 +1,35 @@
+flowchart LR
+    subgraph UNTRUSTED["UNTRUSTED ZONE (attacker-reachable)"]
+        CAM["Camera / Client<br/>(or attacker tool)"]
+    end
+
+    subgraph DMZ["TRUST BOUNDARY 1 : Network edge"]
+        API["Image Upload API<br/>POST /api/access<br/>(Flask)"]
+    end
+
+    subgraph APPZONE["TRUST BOUNDARY 2 : Application host"]
+        PRE["Preprocessing<br/>decode / resize / normalize"]
+        FS[("Log / image store<br/>./logs")]
+        MDL[("Model store<br/>./models/*.pkl")]
+    end
+
+    subgraph MLZONE["TRUST BOUNDARY 3 : Model inference"]
+        FACE["Face Recognition Model"]
+        OBJ["Object Detection Model"]
+        DEC{"Decision System<br/>Allow / Deny / Alert"}
+    end
+
+    DOOR["Physical Door Controller /<br/>Security Robot"]
+
+    CAM -->|"multipart image<br/>(attacker-controlled bytes + filename)"| API
+    API -->|save_path = join(logs, filename)| FS
+    API --> PRE
+    PRE --> FACE
+    PRE --> OBJ
+    MDL -.->|pickle.load at startup| FACE
+    MDL -.->|pickle.load at startup| OBJ
+    FACE --> DEC
+    OBJ --> DEC
+    DEC -->|access: true/false + debug_info| API
+    API -->|JSON response| CAM
+    DEC -->|open / keep locked / alert| DOOR

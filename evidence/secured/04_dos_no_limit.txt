@@ -1,0 +1,4 @@
+[*] POST http://127.0.0.1:8000/api/access with a 12 MB body
+[*] HTTP 413
+[+] Server REJECTED oversized upload (413) -> size limit enforced.
+[*] body[:160]: {"error":"payload too large"} 

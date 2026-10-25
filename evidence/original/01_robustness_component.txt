@@ -1,0 +1,22 @@
+--------------------------------------------------------------------
+Q1  Corrupted / non-image upload -> imdecode None -> predict crash
+    preprocess_image(corrupt bytes) -> None  (expected: None)
+    face_model.predict(None) -> TypeError: Model Error: Expected numpy.ndarray, got <class 'NoneType'>
+--------------------------------------------------------------------
+Q2  Missing resize/normalize -> wrong shape -> model ValueError
+    decoded image shape = (300, 300, 3)
+    face_model.predict(decoded) -> ValueError: Model Error: Invalid input shape. Expected (1, 224, 224, 3), got (300, 300, 3)
+--------------------------------------------------------------------
+Q3  Weapon-detection logic never fires for a real 'knife'
+    object_model output = [{'label': 'person', 'confidence': 0.95}, {'label': 'knife', 'confidence': 0.88}, {'label': 'backpack', 'confidence': 0.75}]
+    vulnerable loop (label=='weapon') -> has_danger = False
+    reality: a knife is present at conf=0.88 but
+    the code checks label=='weapon' only -> DANGER MISSED, access not blocked.
+--------------------------------------------------------------------
+ROOT CAUSE of live 500s: file.save() consumes the stream, so a later
+file.read() returns b'' -> np.frombuffer(b'') -> cv2.imdecode(empty).
+    preprocess_image(b'') -> error: OpenCV(4.10.0) /io/opencv/modules/imgcodecs/src/loadsave.cpp:813: error: (-215:Assertion failed) !buf.empty() in function 'imdecode_'
+    => this is the exact exception every live request raises on
+       the vulnerable app (empty buffer after save consumes stream).
+--------------------------------------------------------------------
+Done.

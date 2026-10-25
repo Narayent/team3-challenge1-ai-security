@@ -1,0 +1,43 @@
+# Both services are bound to 127.0.0.1 only, run as a non-root user, and have no
+# access to any real network interface.
+services:
+  original:
+    image: labaccess:latest
+    container_name: lab_original
+    working_dir: /app
+    command: ["python", "lab_access_api.py"]
+    # Host user is non-root but owns the bind-mounted dirs; sysctl lets it bind 80.
+    user: "${LAB_UID:-1000}:${LAB_GID:-1000}"
+    environment:
+      - HOME=/tmp
+    volumes:
+      - ../original:/app
+    ports:
+      - "127.0.0.1:8080:80"
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    restart: "no"
+
+  secured:
+    image: labaccess:latest
+    container_name: lab_secured
+    working_dir: /app
+    command: ["python", "lab_access_api.py"]
+    user: "${LAB_UID:-1000}:${LAB_GID:-1000}"
+    environment:
+      - LAB_API_KEY=lab-secret-key-change-me  # lab value; override in real use
+      - HOME=/tmp
+      # Binds 0.0.0.0 inside the container; the host only maps it to 127.0.0.1.
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ../secured:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    restart: "no"

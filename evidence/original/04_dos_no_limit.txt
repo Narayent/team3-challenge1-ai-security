@@ -1,0 +1,5 @@
+[*] POST http://127.0.0.1:8080/api/access with a 12 MB body
+[*] HTTP 500
+[!] Server did NOT reject the oversized upload (no 413) ->
+    no MAX_CONTENT_LENGTH: vulnerable to resource exhaustion.
+[*] body[:160]: <!doctype html> <html lang=en>   <head>     <title>cv2.error: OpenCV(4.10.0) /io/opencv/modules/imgcodecs/src/loadsave.cpp:813: error: (-215:Assertion failed) !
